@@ -70,20 +70,34 @@ class _MobileHomeScreenState extends State<MobileHomeScreen> {
       });
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Order sent to kitchen! 🚀"),
-            backgroundColor: Colors.green,
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text("تم بنجاح! 🎉"),
+            content: const Text("وصل الطلب للمطبخ."),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text("موافق"),
+              ),
+            ],
           ),
         );
       }
     } catch (e) {
       setState(() => isSubmitting = false);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text("Error sending order: $e"),
-            backgroundColor: Colors.red,
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text("خطأ في الإرسال ❌"),
+            content: Text("التفاصيل: $e"),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text("حاول مرة أخرى"),
+              ),
+            ],
           ),
         );
       }

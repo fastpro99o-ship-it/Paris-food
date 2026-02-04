@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../widgets/menu_card.dart';
 import '../models/cart_item.dart';
+import '../models/order_model.dart';
+import '../services/order_service.dart';
 
 class PosScreen extends StatefulWidget {
   const PosScreen({super.key});
@@ -233,17 +235,55 @@ class _PosScreenState extends State<PosScreen> {
     );
   }
 
-  void _processSuccess() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text("تم الدفع بنجاح! 🖨️ جاري الطباعة..."),
-        backgroundColor: Colors.green,
-        duration: Duration(seconds: 2),
-      ),
+  void _processSuccess() async {
+    // 1. Create Order Model
+    final order = OrderModel(
+      id: '', // Supabase will generate this or we can use ID.unique() if we had it
+      items: List.from(currentOrder),
+      total: currentOrder.fold(0.0, (s, i) => s + i.total),
+      timestamp: DateTime.now(),
+      tableNumber: "POS-Desktop", // Identification for orders from POS
+      status: 'paid', // POS orders are usually paid immediately
     );
-    Future.delayed(const Duration(seconds: 1), () {
-      _clearOrder();
-    });
+
+    // 2. Save to Supabase
+    try {
+      await OrderService().createOrder(order);
+      if (mounted) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text("تم بنجاح! 🎉"),
+            content: const Text("تم تسجيل الطلب والدفع."),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text("موافق"),
+              ),
+            ],
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text("خطأ في الاتصال ❌"),
+            content: Text("التفاصيل: $e"),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text("موافق"),
+              ),
+            ],
+          ),
+        );
+      }
+    }
+
+    // 3. Clear UI
+    _clearOrder();
   }
 
   Widget _paymentMethodBtn(String label, IconData icon, bool isSelected) {

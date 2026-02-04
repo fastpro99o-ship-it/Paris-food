@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:appwrite/models.dart';
 import 'cart_item.dart';
 
 class OrderModel {
@@ -21,7 +20,7 @@ class OrderModel {
 
   Map<String, dynamic> toJson() {
     return {
-      'items': jsonEncode(items.map((i) => i.toJson()).toList()),
+      'items': items.map((i) => i.toJson()).toList(),
       'total': total,
       'timestamp': timestamp.toIso8601String(),
       'table_number': tableNumber,
@@ -47,7 +46,7 @@ class OrderModel {
     }
 
     return OrderModel(
-      id: json['\$id'] ?? '', // Appwrite ID
+      id: (json['id'] ?? json['\$id'] ?? '').toString(),
       items: itemsList,
       total: (json['total'] ?? 0.0).toDouble(),
       timestamp: json['timestamp'] != null
@@ -56,11 +55,5 @@ class OrderModel {
       tableNumber: json['table_number'] ?? 'Unknown',
       status: json['status'] ?? 'pending',
     );
-  }
-
-  factory OrderModel.fromDocument(Document doc) {
-    final data = doc.data;
-    data['\$id'] = doc.$id;
-    return OrderModel.fromJson(data);
   }
 }
