@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import '../models/cart_item.dart';
 import '../widgets/checkout_sheet.dart';
 
@@ -29,9 +29,10 @@ class CartPage extends StatelessWidget {
             padding: const EdgeInsets.all(20.0),
             child: Text(
               "Mon Panier",
-              style: GoogleFonts.jotiOne(
+              style: TextStyle(
                 fontSize: 32,
                 color: const Color(0xFFF3A402),
+                fontFamily: 'JotiOne',
               ),
             ),
           ),
@@ -40,7 +41,10 @@ class CartPage extends StatelessWidget {
                 ? Center(
                     child: Text(
                       "Votre panier est vide.",
-                      style: GoogleFonts.poppins(color: Colors.white70),
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontFamily: 'Poppins',
+                      ),
                     ),
                   )
                 : ListView.builder(
@@ -71,24 +75,27 @@ class CartPage extends StatelessWidget {
                                 children: [
                                   Text(
                                     item.title,
-                                    style: GoogleFonts.jotiOne(
+                                    style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 16,
+                                      fontFamily: 'JotiOne',
                                     ),
                                   ),
                                   Text(
                                     "${item.quantity} x ${item.price} DH",
-                                    style: GoogleFonts.poppins(
+                                    style: TextStyle(
                                       color: Colors.white70,
                                       fontSize: 12,
+                                      fontFamily: 'Poppins',
                                     ),
                                   ),
                                   if (item.isSpicy)
                                     Text(
                                       "Option: Piquant",
-                                      style: GoogleFonts.poppins(
+                                      style: TextStyle(
                                         color: Colors.redAccent,
                                         fontSize: 10,
+                                        fontFamily: 'Poppins',
                                       ),
                                     ),
                                 ],
@@ -96,9 +103,10 @@ class CartPage extends StatelessWidget {
                             ),
                             Text(
                               "${item.total.toStringAsFixed(0)} DH",
-                              style: GoogleFonts.poppins(
+                              style: TextStyle(
                                 color: const Color(0xFFF3A402),
                                 fontWeight: FontWeight.bold,
+                                fontFamily: 'Poppins',
                               ),
                             ),
                           ],
@@ -120,10 +128,11 @@ class CartPage extends StatelessWidget {
               children: [
                 Text(
                   "Total: ${totalPrice.toStringAsFixed(2)} DH",
-                  style: GoogleFonts.poppins(
+                  style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
+                    fontFamily: 'Poppins',
                   ),
                 ),
                 ElevatedButton(
@@ -135,7 +144,7 @@ class CartPage extends StatelessWidget {
                         SnackBar(
                           content: Text(
                             "Panier vide!",
-                            style: GoogleFonts.poppins(),
+                            style: TextStyle(fontFamily: 'Poppins'),
                           ),
                           backgroundColor: Colors.redAccent,
                         ),
@@ -150,9 +159,10 @@ class CartPage extends StatelessWidget {
                   ),
                   child: Text(
                     "Commander",
-                    style: GoogleFonts.poppins(
+                    style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
+                      fontFamily: 'Poppins',
                     ),
                   ),
                 ),

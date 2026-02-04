@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class OrderTypeBottomSheet extends StatefulWidget {
   final VoidCallback onConfirm; // ADDED
@@ -47,7 +46,11 @@ class _OrderTypeBottomSheetState extends State<OrderTypeBottomSheet> {
               ),
               Text(
                 "Finaliser la commande",
-                style: GoogleFonts.jotiOne(color: Colors.white, fontSize: 18),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontFamily: 'JotiOne',
+                ),
               ),
               const SizedBox(height: 25),
               Row(
@@ -66,9 +69,10 @@ class _OrderTypeBottomSheetState extends State<OrderTypeBottomSheet> {
                   children: [
                     Text(
                       "Choisissez votre table :",
-                      style: GoogleFonts.poppins(
+                      style: TextStyle(
                         color: Colors.white70,
                         fontSize: 14,
+                        fontFamily: 'Poppins',
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -128,7 +132,10 @@ class _OrderTypeBottomSheetState extends State<OrderTypeBottomSheet> {
                       SnackBar(
                         content: Text(
                           "Commande Envoyée! 🚀",
-                          style: GoogleFonts.poppins(color: Colors.white),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Poppins',
+                          ),
                         ),
                         backgroundColor: Colors.green,
                       ),
@@ -147,9 +154,10 @@ class _OrderTypeBottomSheetState extends State<OrderTypeBottomSheet> {
                   ),
                   child: Text(
                     "Confirmer",
-                    style: GoogleFonts.poppins(
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
+                      fontFamily: 'Poppins',
                     ),
                   ),
                 ),

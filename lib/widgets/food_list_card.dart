@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class FoodListCard extends StatelessWidget {
   final String title;
@@ -54,19 +53,21 @@ class FoodListCard extends StatelessWidget {
                     children: [
                       Text(
                         title,
-                        style: GoogleFonts.jotiOne(
+                        style: TextStyle(
                           color: const Color(0xFFF3A402), // Gold Text for Title
                           fontSize: 18, // Adjusted
                           letterSpacing: 1.0,
+                          fontFamily: 'JotiOne',
                         ),
                       ),
                       const SizedBox(height: 5),
                       Text(
                         price,
-                        style: GoogleFonts.poppins(
+                        style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
+                          fontFamily: 'Poppins',
                         ),
                       ),
                     ],

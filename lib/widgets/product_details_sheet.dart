@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ProductDetailsSheet extends StatefulWidget {
   final String title;
@@ -72,17 +71,19 @@ class _ProductDetailsSheetState extends State<ProductDetailsSheet> {
                       children: [
                         Text(
                           widget.title,
-                          style: GoogleFonts.jotiOne(
+                          style: TextStyle(
                             color: Colors.white,
                             fontSize: 24,
+                            fontFamily: 'JotiOne',
                           ),
                         ),
                         Text(
                           "45.00 DH",
-                          style: GoogleFonts.poppins(
+                          style: TextStyle(
                             color: const Color(0xFFF3A402),
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
+                            fontFamily: 'Poppins',
                           ),
                         ),
                       ],
@@ -109,9 +110,10 @@ class _ProductDetailsSheetState extends State<ProductDetailsSheet> {
                         const SizedBox(width: 10),
                         Text(
                           "Piquant ?",
-                          style: GoogleFonts.poppins(
+                          style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,
+                            fontFamily: 'Poppins',
                           ),
                         ),
                       ],
@@ -119,7 +121,7 @@ class _ProductDetailsSheetState extends State<ProductDetailsSheet> {
                     Switch(
                       value: isSpicy,
                       onChanged: (val) => setState(() => isSpicy = val),
-                      activeColor: const Color(0xFFF3A402),
+                      activeThumbColor: const Color(0xFFF3A402),
                     ),
                   ],
                 ),
@@ -144,10 +146,11 @@ class _ProductDetailsSheetState extends State<ProductDetailsSheet> {
                         ),
                         Text(
                           "$quantity",
-                          style: GoogleFonts.poppins(
+                          style: TextStyle(
                             color: Colors.white,
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
+                            fontFamily: 'Poppins',
                           ),
                         ),
                         IconButton(
@@ -177,7 +180,10 @@ class _ProductDetailsSheetState extends State<ProductDetailsSheet> {
                     icon: const Icon(Icons.shopping_cart_checkout),
                     label: Text(
                       "Ajouter",
-                      style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Poppins',
+                      ),
                     ),
                   ),
                 ],

@@ -1,310 +1,131 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../models/cart_item.dart';
-import '../widgets/header_delegate.dart';
-import '../widgets/menu_card.dart';
-import '../widgets/product_details_sheet.dart';
-import 'cart_screen.dart';
-import 'category_menu_screen.dart'; // IMPORTED
+// Import new screens
+import 'dashboard_screen.dart';
+import 'pos_screen.dart';
+import 'customers_screen.dart';
+import 'staff_screen.dart';
+import 'reports_screen.dart';
+import 'settings_screen.dart';
+
+import 'mobile_home_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   int selectedIndex = 0;
-  List<CartItem> cartItems = [];
 
-  void _addToCart(
-    String title,
-    String imagePath,
-    double price,
-    int qty,
-    bool spicy,
-  ) {
-    setState(() {
-      cartItems.add(
-        CartItem(
-          title: title,
-          imagePath: imagePath,
-          price: price,
-          quantity: qty,
-          isSpicy: spicy,
-        ),
-      );
-    });
-    // Navigator.pop(context); // Handled by sheet or ignored
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          "$title ajouté au panier!",
-          style: GoogleFonts.poppins(color: Colors.black),
-        ),
-        backgroundColor: const Color(0xFFF3A402),
-        duration: const Duration(seconds: 1),
-      ),
-    );
-  }
-
-  void _openCategoryMenu(
-    BuildContext context,
-    String category,
-    String imagePath,
-    Color accentColor,
-  ) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => CategoryMenuScreen(
-          categoryName: category,
-          heroImagePath: imagePath,
-          accentColor: accentColor,
-          onAddToCart: (item) {
-            setState(() {
-              cartItems.add(item);
-            });
-          },
-        ),
-      ),
-    ).then((result) {
-      if (result == 'open_cart') {
-        setState(() {
-          selectedIndex = 1;
-        });
-      }
-    });
-  }
+  final List<Widget> _pages = [
+    const DashboardScreen(),
+    const PosScreen(),
+    const CustomersScreen(),
+    const StaffScreen(),
+    const ReportsScreen(),
+    const SettingsScreen(),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      extendBodyBehindAppBar: true,
-      backgroundColor: Colors.transparent,
-      body: Stack(
-        children: [
-          /// LAYER 1: BACKGROUND
-          Positioned.fill(
-            child: Container(
-              decoration: const BoxDecoration(
-                gradient: RadialGradient(
-                  center: Alignment(0.15, -0.6),
-                  radius: 1.3,
-                  colors: [Color(0xFFF3A402), Color(0xFF1A1A1A)],
-                  stops: [0.0, 1.0],
-                ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // If width is less than 800px, show the Mobile App UI
+        if (constraints.maxWidth < 800) {
+          return Container(
+            decoration: const BoxDecoration(
+              gradient: RadialGradient(
+                center: Alignment(0.15, -0.6),
+                radius: 1.3,
+                colors: [Color(0xFF2C2C2C), Color(0xFF101010)],
+                stops: [0.0, 1.0],
               ),
             ),
-          ),
+            child: const MobileHomeScreen(),
+          );
+        }
 
-          /// LAYER 2: CONTENT (Switcher)
-          Positioned.fill(
-            child: IndexedStack(
-              index: selectedIndex,
+        // Otherwise show the Desktop POS/Dashboard UI
+        return Scaffold(
+          body: Container(
+            decoration: const BoxDecoration(
+              gradient: RadialGradient(
+                center: Alignment(0.15, -0.6),
+                radius: 1.3,
+                colors: [Color(0xFF2C2C2C), Color(0xFF101010)],
+                stops: [0.0, 1.0],
+              ),
+            ),
+            child: Row(
               children: [
-                // INDEX 0: HOME MENU
-                CustomScrollView(
-                  slivers: [
-                    SliverPersistentHeader(
-                      pinned: true,
-                      delegate: ParisFoodHeaderDelegate(),
-                    ),
-                    SliverPadding(
-                      padding: const EdgeInsets.only(
-                        left: 16,
-                        right: 16,
-                        bottom: 120,
-                      ),
-                      sliver: SliverGrid(
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 16,
-                              mainAxisSpacing: 16,
-                              childAspectRatio: 0.95,
-                            ),
-                        delegate: SliverChildListDelegate(
-                          [
-                            MenuCard(
-                              title: 'BURGER',
-                              imagePath: 'assets/burger.png',
-                              accentColor: Colors.orange,
-                              onTap: () => _openCategoryMenu(
-                                context,
-                                'BURGER',
-                                'assets/burger.png',
-                                Colors.orange,
-                              ),
-                            ),
-                            MenuCard(
-                              title: 'SANDWICH',
-                              imagePath: 'assets/sandwich.png',
-                              accentColor: Colors.brown,
-                              onTap: () => _openCategoryMenu(
-                                context,
-                                'SANDWICH',
-                                'assets/sandwich.png',
-                                Colors.brown,
-                              ),
-                            ),
-                            MenuCard(
-                              title: 'PIZZA',
-                              imagePath: 'assets/pizza.png',
-                              accentColor: Colors.red,
-                              onTap: () => _openCategoryMenu(
-                                context,
-                                'PIZZA',
-                                'assets/pizza.png',
-                                Colors.red,
-                              ),
-                            ),
-                            MenuCard(
-                              title: 'TACOS',
-                              imagePath: 'assets/Tacos.png',
-                              accentColor: Colors.amber,
-                              onTap: () => _openCategoryMenu(
-                                context,
-                                'TACOS',
-                                'assets/Tacos.png',
-                                Colors.amber,
-                              ),
-                            ),
-                            MenuCard(
-                              title: 'PATES',
-                              imagePath: 'assets/plats.png', // Placeholder
-                              accentColor: Colors.yellow,
-                              onTap: () => _openCategoryMenu(
-                                context,
-                                'PATES',
-                                'assets/plats.png',
-                                Colors.yellow,
-                              ),
-                            ),
-                            MenuCard(
-                              title: 'OMELETTES',
-                              imagePath: 'assets/salad.png', // Placeholder
-                              accentColor: Colors.orangeAccent,
-                              onTap: () => _openCategoryMenu(
-                                context,
-                                'OMELETTES',
-                                'assets/salad.png',
-                                Colors.orangeAccent,
-                              ),
-                            ),
-                            MenuCard(
-                              title: 'SALADES',
-                              imagePath: 'assets/salad.png',
-                              accentColor: Colors.lightGreen,
-                              onTap: () => _openCategoryMenu(
-                                context,
-                                'SALADES',
-                                'assets/salad.png',
-                                Colors.lightGreen,
-                              ),
-                            ),
-                            MenuCard(
-                              title: 'DESSERTS',
-                              imagePath: 'assets/pasticcio.png', // Placeholder
-                              accentColor: Colors.pink,
-                              onTap: () => _openCategoryMenu(
-                                context,
-                                'DESSERTS',
-                                'assets/pasticcio.png',
-                                Colors.pink,
-                              ),
-                            ),
-                            MenuCard(
-                              title: 'BOISSONS',
-                              imagePath:
-                                  'assets/burger.png', // Placeholder (Need Drink)
-                              accentColor: Colors.blue,
-                              onTap: () => _openCategoryMenu(
-                                context,
-                                'BOISSONS',
-                                'assets/burger.png',
-                                Colors.blue,
-                              ),
-                            ),
-                            MenuCard(
-                              title: 'PETIT DÉJEUNER',
-                              imagePath: 'assets/burger.png', // Placeholder
-                              accentColor: Colors.teal,
-                              onTap: () => _openCategoryMenu(
-                                context,
-                                'PETIT DÉJEUNER',
-                                'assets/burger.png',
-                                Colors.teal,
-                              ),
-                            ),
-                            MenuCard(
-                              title: 'SUPPLÉMENTS',
-                              imagePath: 'assets/burger.png', // Placeholder
-                              accentColor: Colors.grey,
-                              onTap: () => _openCategoryMenu(
-                                context,
-                                'SUPPLÉMENTS',
-                                'assets/burger.png',
-                                Colors.grey,
-                              ),
-                            ),
-                          ].map((card) => card).toList(),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                // SIDEBAR
+                _buildSidebar(),
 
-                // INDEX 1: CART PAGE
-                CartPage(
-                  cartItems: cartItems,
-                  onOrder: () {
-                    setState(() {
-                      cartItems.clear();
-                    });
-                  },
-                ),
-
-                // INDEX 2: CREDIT
-                const Center(
-                  child: Text(
-                    "Payment Page",
-                    style: TextStyle(color: Colors.white),
-                  ),
+                // MAIN CONTENT
+                Expanded(
+                  child: IndexedStack(index: selectedIndex, children: _pages),
                 ),
               ],
             ),
           ),
+        );
+      },
+    );
+  }
 
-          /// LAYER 3: NAVBAR
-          Positioned(
-            bottom: 25,
-            left: 20,
-            right: 20,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(40),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(40),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      navItem(Icons.home, 0),
-                      navItem(Icons.shopping_cart, 1),
-                      navItem(Icons.credit_card, 2),
-                    ],
-                  ),
+  Widget _buildSidebar() {
+    return Container(
+      width: 90,
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.4),
+        border: Border(
+          right: BorderSide(color: Colors.white.withOpacity(0.05)),
+        ),
+      ),
+      child: Column(
+        children: [
+          const SizedBox(height: 40),
+          // Logo or Branding Icon
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF3A402),
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFFF3A402).withOpacity(0.5),
+                  blurRadius: 10,
                 ),
-              ),
+              ],
+            ),
+            child: const Icon(
+              Icons.restaurant_menu,
+              color: Colors.white,
+              size: 30,
+            ),
+          ),
+          const SizedBox(height: 40),
+
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                _sidebarItem(Icons.dashboard_rounded, "Dash", 0),
+                const SizedBox(height: 20),
+                _sidebarItem(Icons.point_of_sale_rounded, "POS", 1),
+                const SizedBox(height: 20),
+                _sidebarItem(Icons.people_alt_rounded, "Clients", 2),
+                const SizedBox(height: 20),
+                _sidebarItem(Icons.badge_rounded, "Staff", 3),
+                const SizedBox(height: 20),
+                _sidebarItem(Icons.bar_chart_rounded, "Reports", 4),
+                const Spacer(), // Push Settings to bottom
+                _sidebarItem(Icons.settings_rounded, "Settings", 5),
+                const SizedBox(height: 20),
+              ],
             ),
           ),
         ],
@@ -312,18 +133,45 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget navItem(IconData icon, int index) {
+  Widget _sidebarItem(IconData icon, String label, int index) {
     bool isActive = selectedIndex == index;
     return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedIndex = index;
-        });
-      },
-      child: Icon(
-        icon,
-        size: 28,
-        color: isActive ? Colors.amber : Colors.white,
+      onTap: () => setState(() => selectedIndex = index),
+      child: Column(
+        children: [
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: isActive ? const Color(0xFFF3A402) : Colors.transparent,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: isActive
+                  ? [
+                      BoxShadow(
+                        color: const Color(0xFFF3A402).withOpacity(0.4),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
+                      ),
+                    ]
+                  : [],
+            ),
+            child: Icon(
+              icon,
+              size: 26,
+              color: isActive ? Colors.white : Colors.grey[400],
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 10,
+              color: isActive ? Colors.white : Colors.grey[600],
+              fontFamily: 'Poppins',
+              fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
+        ],
       ),
     );
   }

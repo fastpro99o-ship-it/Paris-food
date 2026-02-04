@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ParisFoodHeaderDelegate extends SliverPersistentHeaderDelegate {
   @override
@@ -26,7 +25,7 @@ class ParisFoodHeaderDelegate extends SliverPersistentHeaderDelegate {
       decoration: const BoxDecoration(color: Colors.transparent),
       child: Text(
         'PARIS FOOD',
-        style: GoogleFonts.jotiOne(
+        style: TextStyle(
           fontSize: fontSize,
           fontWeight: FontWeight.bold,
           color: const Color(0xFFF3A402),
@@ -37,6 +36,7 @@ class ParisFoodHeaderDelegate extends SliverPersistentHeaderDelegate {
               offset: const Offset(0, 5),
             ),
           ],
+          fontFamily: 'JotiOne',
         ),
       ),
     );

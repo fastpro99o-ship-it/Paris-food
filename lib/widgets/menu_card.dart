@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class MenuCard extends StatelessWidget {
   final String title;
@@ -99,11 +98,12 @@ class MenuCard extends StatelessWidget {
                     alignment: Alignment.center,
                     child: Text(
                       title,
-                      style: GoogleFonts.jotiOne(
+                      style: TextStyle(
                         color: Colors.white,
                         fontSize: 13,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1.2,
+                        fontFamily: 'JotiOne',
                       ),
                     ),
                   ),

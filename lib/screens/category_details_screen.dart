@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class CategoryDetailsScreen extends StatelessWidget {
   final String categoryTitle;
@@ -134,20 +133,19 @@ class CategoryDetailsScreen extends StatelessWidget {
             top: 40,
             child: Text(
               categoryTitle, // e.g. BURGER
-              style: GoogleFonts.bebasNeue(
+              style: TextStyle(
                 // Using a condensed bold font generally fits "Modern" well, or JotiOne as used before
-                textStyle: TextStyle(
-                  fontSize: 50,
-                  color: Colors.white.withOpacity(0.9),
-                  letterSpacing: 2,
-                  shadows: const [
-                    Shadow(
-                      offset: Offset(0, 4),
-                      blurRadius: 10,
-                      color: Colors.black45,
-                    ),
-                  ],
-                ),
+                fontFamily: 'BebasNeue',
+                fontSize: 50,
+                color: Colors.white.withOpacity(0.9),
+                letterSpacing: 2,
+                shadows: const [
+                  Shadow(
+                    offset: Offset(0, 4),
+                    blurRadius: 10,
+                    color: Colors.black45,
+                  ),
+                ],
               ),
             ),
           ),
@@ -165,10 +163,11 @@ class CategoryDetailsScreen extends StatelessWidget {
               ),
               child: Text(
                 "25DH", // Placeholder or from hero item
-                style: GoogleFonts.poppins(
+                style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
+                  fontFamily: 'Poppins',
                 ),
               ),
             ),
@@ -210,19 +209,21 @@ class CategoryDetailsScreen extends StatelessWidget {
                 children: [
                   Text(
                     name,
-                    style: GoogleFonts.bebasNeue(
+                    style: TextStyle(
                       fontSize: 24,
                       color: const Color(0xFFEFEFEF),
                       letterSpacing: 1,
+                      fontFamily: 'BebasNeue',
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     price,
-                    style: GoogleFonts.poppins(
+                    style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
+                      fontFamily: 'Poppins',
                     ),
                   ),
                 ],

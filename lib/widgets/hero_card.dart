@@ -1,6 +1,4 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class HeroCard extends StatelessWidget {
   final String title;
@@ -61,7 +59,7 @@ class HeroCard extends StatelessWidget {
             top: 60,
             child: Text(
               title,
-              style: GoogleFonts.jotiOne(
+              style: TextStyle(
                 fontSize: 48,
                 color: Colors.white.withOpacity(0.9),
                 shadows: [
@@ -71,6 +69,7 @@ class HeroCard extends StatelessWidget {
                     offset: const Offset(2, 2),
                   ),
                 ],
+                fontFamily: 'JotiOne',
               ),
             ),
           ),
@@ -102,10 +101,11 @@ class HeroCard extends StatelessWidget {
               ),
               child: Text(
                 price,
-                style: GoogleFonts.poppins(
+                style: TextStyle(
                   color: gradientColors[1],
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
+                  fontFamily: 'Poppins',
                 ),
               ),
             ),
